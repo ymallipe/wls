@@ -1,0 +1,39 @@
+---
+
+- name: Copy JDK tarball
+  copy:
+    src: files/jdk-8u161-linux-x64.tar.gz
+    dest: /root/
+
+- name: Unarchive JDK 
+  unarchive:
+    src: /root/jdk-8u161-linux-x64.tar.gz
+    dest: "{{ java_home }}"
+    remote_src: yes
+
+- name: Set java path
+  shell: echo export JAVA_HOME={{ java_home }}/jdk1.8.0_161 export PATH=$PATH:$JAVA_HOME/bin > /etc/profile.d/java.sh
+
+- name: apply java path
+  shell: source /etc/profile.d/java.sh
+
+- name: make java1.8 as default
+  shell: update-alternatives --install "/usr/bin/java" "java" "{{ java_home }}/jdk1.8.0_161/bin/java" 1
+
+- name: make java1.8 as default
+  shell: update-alternatives --install "/usr/bin/javac" "javac" "{{ java_home }}/jdk1.8.0_161/bin/javac" 1
+
+- name: make java1.8 as default
+  shell: update-alternatives --set java {{ java_home }}/jdk1.8.0_161/bin/java
+
+- name: make java1.8 as default
+  shell: update-alternatives --set javac {{ java_home }}/jdk1.8.0_161/bin/javac
+
+- name: make java1.8 as default
+  shell: source /etc/profile
+
+- name: Create soft link to /opt/java
+  file:
+    src: /usr/local/jdk1.8.0_161
+    dest: /opt/java
+    state: link

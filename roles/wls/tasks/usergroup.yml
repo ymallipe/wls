@@ -1,0 +1,13 @@
+---
+
+- name: create group for wls
+  group:
+    name: "{{ wls_group }}"
+    state: present
+
+- name: Create user for WLS
+  user:
+    name: "{{ wls_user }}"
+    comment: User for Weblogic server
+    group: "{{ wls_group }}"
+    append: yes

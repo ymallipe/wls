@@ -1,0 +1,4 @@
+---
+
+- include_vars: env.yml
+- include: javainstall.yml
