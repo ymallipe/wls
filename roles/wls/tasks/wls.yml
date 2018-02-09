@@ -15,7 +15,7 @@
 - name: Download Weblogic server tarfile
   unarchive: 
     src: https://storage.googleapis.com/yesudasm/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip
-    dest: /home/oracle
+    dest: "{{ wls_home }}"
     remote_src: yes
     owner: "{{ wls_user }}"
     group: "{{ wls_group }}"
@@ -42,6 +42,6 @@
   command: "{{ item }}"
   become_user: "{{ wls_user }}"
   args:
-    chdir: "/home/oracle"
+    chdir: "{{ wls_home }}"
   with_items:
     - java -jar fmw_12.2.1.3.0_wls_quick.jar -silent -responseFile {{ wls_home }}/silentinstall.rsp -invPtrLoc {{ ori_home }}/oraInst.loc   
