@@ -1,13 +1,14 @@
 ---
 
-- name: Copy JDK tarball
-  copy:
-    src: files/jdk-8u161-linux-x64.tar.gz
-    dest: /root/
+#- name: Copy JDK tarball
+#  copy:
+#    src: files/jdk-8u161-linux-x64.tar.gz
+#    dest: /root/
 
 - name: Unarchive JDK 
   unarchive:
-    src: /root/jdk-8u161-linux-x64.tar.gz
+ #   src: /root/jdk-8u161-linux-x64.tar.gz
+    src: https://storage.googleapis.com/yesudasm/jdk-8u161-linux-x64.tar.gz
     dest: "{{ java_home }}"
     remote_src: yes
 

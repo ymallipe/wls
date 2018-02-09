@@ -1,2 +1,2 @@
-inventory_loc=/home/oracle/oraInventory
+inventory_loc=/home/oracle/wls/weblogic/oraInventory
 inst_group=oracle

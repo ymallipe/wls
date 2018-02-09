@@ -2,47 +2,30 @@
 
 - name: Create directory ORACLE_HOME for Weblogic setup
   file:
-    path: "{{ oracle_home }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ wls_user }}"
     group: "{{ wls_group }}"
+  with_items:
+    - "{{ oracle_home }}"
+    - "{{ wls_home }}"
+    - "{{ domain_home }}"
+    - "{{ ori_home }}"
 
-- name: Create directory ORACLE_HOME for Weblogic setup
-  file:
-    path: "{{ wls_home }}"
-    state: directory
-    owner: "{{ wls_user }}"
-    group: "{{ wls_group }}"
-
-me: Create directory ORACLE_HOME for Weblogic setup
-  file:
-    path: "{{ oracle_home }}"/oraInventory
-    state: directory
-    owner: "{{ wls_user }}"
-    group: "{{ wls_group }}"
-
-
-
-- name: Download Oracle weblogic server
-  copy: 
-    src: files/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip
+- name: Download Weblogic server tarfile
+  unarchive: 
+    src: https://storage.googleapis.com/yesudasm/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip
     dest: /home/oracle
+    remote_src: yes
     owner: "{{ wls_user }}"
     group: "{{ wls_group }}"
     mode: 0750
 
-- name: Unzip WLS
-  unarchive:
-    src: "/home/oracle/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip"
-    dest: "/home/oracle/"
-    owner: "{{ wls_user }}"
-    group: "{{ wls_group }}"
-    mode: 0750
 
 - name: Copy response template
   template:
-    src: silentinstall.j2
-    dest: /home/oracle/silentinstall.txt
+    src: templates/silentinstall.j2
+    dest: "{{ wls_home }}/silentinstall.rsp"
     owner: "{{ wls_user }}"
     group: "{{ wls_group }}"
     mode: 0600
@@ -50,7 +33,7 @@ me: Create directory ORACLE_HOME for Weblogic setup
 - name: Copy OraInst.loc file
   copy:
     src: files/oraInst.loc
-    dest: "{{ wls_home }}"
+    dest: "{{ ori_home }}"
     owner: "{{ wls_user }}"
     group: "{{ wls_group }}"
     mode: 0600
@@ -59,8 +42,6 @@ me: Create directory ORACLE_HOME for Weblogic setup
   command: "{{ item }}"
   become_user: "{{ wls_user }}"
   args:
-    chdir: "{{ oracle_home }}"
+    chdir: "/home/oracle"
   with_items:
-    - java -jar fmw_12.2.1.3.0_wls_quick.jar -silent -responseFile {{ oracle_home }}/silentinstall.txt -invPtrLoc {{ wls_home }}/oraInst.loc   
-
-
+    - java -jar fmw_12.2.1.3.0_wls_quick.jar -silent -responseFile {{ wls_home }}/silentinstall.rsp -invPtrLoc {{ ori_home }}/oraInst.loc   
