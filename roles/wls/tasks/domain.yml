@@ -1,4 +1,17 @@
 ---
 
 - name: Creation of Domain for WLS 
-  
+  command: "{{ item }}"
+  become_user: "{{ wls_user }}"
+  args:
+    chdir: "{{ wls_home }}"
+  with_items:
+    - sh /home/oracle/wls/weblogic/wls12213/oracle_common/common/bin/wlst.sh /home/oracle/wls/weblogic/wls12213/wlserver/common/templates/scripts/wlst/basicWLSDomain.py   
+
+- name: Start Domain 
+  command: "{{ item }}"
+  become_user: "{{ wls_user }}"
+  args:
+    chdir: "/home/oracle/wls/weblogic/wls12213/user_projects/domains/basicWLSDomain/bin"
+  with_items:
+    - sh startWebLogic.sh &
