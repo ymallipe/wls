@@ -3,4 +3,4 @@
 - include_vars: env.yml
 - import_tasks: usergroup.yml
 - import_tasks: wls.yml
-#- import_tasks: domain.yml
+- import_tasks: domain.yml

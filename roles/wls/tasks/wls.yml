@@ -12,6 +12,7 @@
     - "{{ domain_home }}"
     - "{{ ori_home }}"
 
+
 - name: Download Weblogic server tarfile
   unarchive: 
     src: https://storage.googleapis.com/yesudasm/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip
