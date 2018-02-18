@@ -17,9 +17,12 @@
     - sh /home/oracle/wls/weblogic/wls12213/oracle_common/common/bin/wlst.sh /home/oracle/wls/weblogic/wls12213/wlserver/common/templates/scripts/wlst/domain.py
 
 - name: Start Domain 
+  become: true
   command: "{{ item }}"
   become_user: "{{ wls_user }}"
   args:
-    chdir: "/home/oracle/wls/weblogic/wls12213/user_projects/domains/basicWLSDomain/bin"
+    chdir: "/home/oracle/wls/weblogic/wls12213/user_projects/domains/{{ domain }}/"
   with_items:
     - sh startWebLogic.sh &
+  register: start
+- debug: var=start

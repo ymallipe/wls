@@ -1,8 +1,8 @@
 [wls]
-
+192.168.49.131
 [all:vars]
 
 
-#ansible_ssh_user=
-#ansible_ssh_pass=[REDACTED]
+ansible_ssh_user=oracle
+ansible_ssh_pass=oracle
 #ansible_ssh_private_key_file=

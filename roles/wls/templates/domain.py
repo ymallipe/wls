@@ -128,7 +128,7 @@ assign('JDBCSystemResource', 'myDataSource', 'Target', 'AdminServer')
 #=======================================================================================
 
 setOption('OverwriteDomain', 'true')
-writeDomain('/home/oracle/wls/weblogic/wls12213/user_projects/domains/mydomain')
+writeDomain('/home/oracle/wls/weblogic/wls12213/user_projects/domains/{{ domain }}')
 closeTemplate()
 
 #=======================================================================================
